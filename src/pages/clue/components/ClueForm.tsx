@@ -27,6 +27,13 @@ const ClueForm: React.FC<ClueFormProps> = (props) => {
       modalProps={{
         destroyOnClose: true,
         onCancel: onCancel,
+        styles: {
+          body: {
+            maxHeight: '60vh',
+            overflowY: 'auto',
+            paddingRight: 8,
+          },
+        },
       }}
       onFinish={async (formValues) => {
         const success = await onSubmit({ ...values, ...formValues });
