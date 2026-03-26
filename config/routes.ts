@@ -50,21 +50,29 @@ export default [
     icon: 'dashboard',
     component: './console',
   },
-  // 2. 线索管理
+  // 2. 线索调研（合并：线索管理 + 调研管理）
   {
-    path: '/clue',
-    name: 'clue',
+    path: '/clue-research',
+    name: 'clue-research',
     icon: 'bulb',
-    component: './clue',
+    routes: [
+      {
+        path: '/clue-research',
+        redirect: '/clue-research/clue',
+      },
+      {
+        path: '/clue-research/clue',
+        name: 'clue',
+        component: './clue',
+      },
+      {
+        path: '/clue-research/research',
+        name: 'research',
+        component: './research',
+      },
+    ],
   },
-  // 3. 课题管理
-  {
-    path: '/topic',
-    name: 'topic',
-    icon: 'book',
-    component: './topic',
-  },
-  // 4. 工程管理
+  // 3. 项目管理（合并：课题管理 + 工程管理）
   {
     path: '/project',
     name: 'project',
@@ -72,7 +80,12 @@ export default [
     routes: [
       {
         path: '/project',
-        redirect: '/project/list',
+        redirect: '/project/topic',
+      },
+      {
+        path: '/project/topic',
+        name: 'topic',
+        component: './topic',
       },
       {
         path: '/project/list',
@@ -96,29 +109,34 @@ export default [
       },
     ],
   },
-  // 5. 工作备忘
+  // 4. 工作管理（合并：工作备忘 + 组会管理）
   {
-    path: '/work-memo',
-    name: 'work-memo',
+    path: '/work',
+    name: 'work',
     icon: 'schedule',
     routes: [
       {
-        path: '/work-memo',
-        redirect: '/work-memo/task',
+        path: '/work',
+        redirect: '/work/task',
       },
       {
-        path: '/work-memo/task',
+        path: '/work/task',
         name: 'task',
         component: './work-memo/task',
       },
       {
-        path: '/work-memo/note',
+        path: '/work/note',
         name: 'note',
         component: './work-memo/note',
       },
+      {
+        path: '/work/meeting',
+        name: 'meeting',
+        component: './meeting',
+      },
     ],
   },
-  // 6. 财务管理
+  // 5. 财务管理
   {
     path: '/finance',
     name: 'finance',
@@ -140,7 +158,7 @@ export default [
       },
     ],
   },
-  // 7. 合同管理
+  // 6. 合同管理
   {
     path: '/contract',
     name: 'contract',
@@ -162,34 +180,44 @@ export default [
       },
     ],
   },
-  // 8. 团队管理
+  // 7. 人员管理（合并：团队管理 + 联系人管理 + 简历管理）
   {
-    path: '/team',
-    name: 'team',
+    path: '/personnel',
+    name: 'personnel',
     icon: 'team',
     routes: [
       {
-        path: '/team',
-        redirect: '/team/list',
+        path: '/personnel',
+        redirect: '/personnel/team',
       },
       {
-        path: '/team/list',
-        name: 'list',
+        path: '/personnel/team',
+        name: 'team',
         component: './team/list',
       },
       {
-        path: '/team/member',
+        path: '/personnel/member',
         name: 'member',
         component: './team/member',
       },
       {
-        path: '/team/member-task',
+        path: '/personnel/member-task',
         name: 'member-task',
         component: './team/member-task',
       },
+      {
+        path: '/personnel/contact',
+        name: 'contact',
+        component: './contact',
+      },
+      {
+        path: '/personnel/resume',
+        name: 'resume',
+        component: './document/resume',
+      },
     ],
   },
-  // 9. 知识产权管理
+  // 8. 知识产权管理
   {
     path: '/intellectual-property',
     name: 'intellectual-property',
@@ -221,50 +249,14 @@ export default [
       },
     ],
   },
-  // 10. 组会管理
-  {
-    path: '/meeting',
-    name: 'meeting',
-    icon: 'calendar',
-    component: './meeting',
-  },
-  // 11. 联系人管理
-  {
-    path: '/contact',
-    name: 'contact',
-    icon: 'contacts',
-    component: './contact',
-  },
-  // 12. 调研管理
-  {
-    path: '/research',
-    name: 'research',
-    icon: 'search',
-    component: './research',
-  },
-  // 13. 资料管理
+  // 9. 文件管理（原资料管理，简历已移至人员管理）
   {
     path: '/document',
     name: 'document',
     icon: 'folderOpen',
-    routes: [
-      {
-        path: '/document',
-        redirect: '/document/file',
-      },
-      {
-        path: '/document/file',
-        name: 'file',
-        component: './document/file',
-      },
-      {
-        path: '/document/resume',
-        name: 'resume',
-        component: './document/resume',
-      },
-    ],
+    component: './document/file',
   },
-  // 14. 个人中心
+  // 10. 个人中心
   {
     path: '/account',
     name: 'account',
