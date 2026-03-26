@@ -7,44 +7,76 @@ export default {
   'menu.login': '登录',
   'menu.register': '注册',
   'menu.register-result': '注册结果',
-  'menu.dashboard': 'Dashboard',
-  'menu.dashboard.analysis': '分析页',
-  'menu.dashboard.monitor': '监控页',
-  'menu.dashboard.workplace': '工作台',
-  'menu.exception.403': '403',
-  'menu.exception.404': '404',
-  'menu.exception.500': '500',
-  'menu.form': '表单页',
-  'menu.form.basic-form': '基础表单',
-  'menu.form.step-form': '分步表单',
-  'menu.form.step-form.info': '分步表单（填写转账信息）',
-  'menu.form.step-form.confirm': '分步表单（确认转账信息）',
-  'menu.form.step-form.result': '分步表单（完成）',
-  'menu.form.advanced-form': '高级表单',
-  'menu.list': '列表页',
-  'menu.list.table-list': '查询表格',
-  'menu.list.basic-list': '标准列表',
-  'menu.list.card-list': '卡片列表',
-  'menu.list.search-list': '搜索列表',
-  'menu.list.search-list.articles': '搜索列表（文章）',
-  'menu.list.search-list.projects': '搜索列表（项目）',
-  'menu.list.search-list.applications': '搜索列表（应用）',
-  'menu.profile': '详情页',
-  'menu.profile.basic': '基础详情页',
-  'menu.profile.advanced': '高级详情页',
-  'menu.result': '结果页',
-  'menu.result.success': '成功页',
-  'menu.result.fail': '失败页',
-  'menu.exception': '异常页',
-  'menu.exception.not-permission': '403',
-  'menu.exception.not-find': '404',
-  'menu.exception.server-error': '500',
-  'menu.exception.trigger': '触发错误',
-  'menu.account': '个人页',
+
+  // 1. 控制台
+  'menu.console': '控制台',
+
+  // 2. 线索管理
+  'menu.clue': '线索管理',
+
+  // 3. 课题管理
+  'menu.topic': '课题管理',
+
+  // 4. 工程管理
+  'menu.project': '工程管理',
+  'menu.project.list': '工程列表',
+  'menu.project.suggestion': '工程建议',
+  'menu.project.requirement': '工程需求',
+  'menu.project.prompt': '提示词管理',
+
+  // 5. 工作备忘
+  'menu.work-memo': '工作备忘',
+  'menu.work-memo.task': '工作任务',
+  'menu.work-memo.note': '工作便签',
+
+  // 6. 财务管理
+  'menu.finance': '财务管理',
+  'menu.finance.budget': '预算管理',
+  'menu.finance.reimbursement': '报销管理',
+
+  // 7. 合同管理
+  'menu.contract': '合同管理',
+  'menu.contract.receipt': '收款合同',
+  'menu.contract.outsourcing': '外协合同',
+
+  // 8. 团队管理
+  'menu.team': '团队管理',
+  'menu.team.list': '团队列表',
+  'menu.team.member': '成员列表',
+  'menu.team.member-task': '成员任务',
+
+  // 9. 知识产权管理
+  'menu.intellectual-property': '知识产权管理',
+  'menu.intellectual-property.patent': '专利管理',
+  'menu.intellectual-property.software': '软著管理',
+  'menu.intellectual-property.article': '文章管理',
+  'menu.intellectual-property.library': '知识产权库',
+
+  // 10. 组会管理
+  'menu.meeting': '组会管理',
+
+  // 11. 联系人管理
+  'menu.contact': '联系人管理',
+
+  // 12. 调研管理
+  'menu.research': '调研管理',
+
+  // 13. 资料管理
+  'menu.document': '资料管理',
+  'menu.document.file': '文件管理',
+  'menu.document.resume': '简历管理',
+
+  // 14. 个人中心
+  'menu.account': '个人中心',
   'menu.account.center': '个人中心',
   'menu.account.settings': '个人设置',
   'menu.account.trigger': '触发报错',
   'menu.account.logout': '退出登录',
+
+  // 保留原有的一些通用菜单项
+  'menu.exception.403': '403',
+  'menu.exception.404': '404',
+  'menu.exception.500': '500',
   'menu.editor': '图形编辑器',
   'menu.editor.flow': '流程编辑器',
   'menu.editor.mind': '脑图编辑器',

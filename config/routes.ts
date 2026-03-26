@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @name umi 的路由配置
  * @description 只支持 path,component,routes,redirect,wrappers,name,icon 的配置
  * @param path  path 只支持两种占位符配置，第一种是动态参数 :id 的形式，第二种是 * 通配符，通配符只能出现路由字符串的最后。
@@ -43,223 +43,237 @@ export default [
       },
     ],
   },
+  // 1. 控制台
   {
-    path: '/dashboard',
-    name: 'dashboard',
+    path: '/console',
+    name: 'console',
     icon: 'dashboard',
+    component: './console',
+  },
+  // 2. 线索管理
+  {
+    path: '/clue',
+    name: 'clue',
+    icon: 'bulb',
+    component: './clue',
+  },
+  // 3. 课题管理
+  {
+    path: '/topic',
+    name: 'topic',
+    icon: 'book',
+    component: './topic',
+  },
+  // 4. 工程管理
+  {
+    path: '/project',
+    name: 'project',
+    icon: 'project',
     routes: [
       {
-        path: '/dashboard',
-        redirect: '/dashboard/analysis',
+        path: '/project',
+        redirect: '/project/list',
       },
       {
-        name: 'analysis',
-        icon: 'smile',
-        path: '/dashboard/analysis',
-        component: './dashboard/analysis',
+        path: '/project/list',
+        name: 'list',
+        component: './project/list',
       },
       {
-        name: 'monitor',
-        icon: 'smile',
-        path: '/dashboard/monitor',
-        component: './dashboard/monitor',
+        path: '/project/suggestion',
+        name: 'suggestion',
+        component: './project/suggestion',
       },
       {
-        name: 'workplace',
-        icon: 'smile',
-        path: '/dashboard/workplace',
-        component: './dashboard/workplace',
+        path: '/project/requirement',
+        name: 'requirement',
+        component: './project/requirement',
+      },
+      {
+        path: '/project/prompt',
+        name: 'prompt',
+        component: './project/prompt',
       },
     ],
   },
+  // 5. 工作备忘
   {
-    path: '/form',
-    icon: 'form',
-    name: 'form',
+    path: '/work-memo',
+    name: 'work-memo',
+    icon: 'schedule',
     routes: [
       {
-        path: '/form',
-        redirect: '/form/basic-form',
+        path: '/work-memo',
+        redirect: '/work-memo/task',
       },
       {
-        name: 'basic-form',
-        icon: 'smile',
-        path: '/form/basic-form',
-        component: './form/basic-form',
+        path: '/work-memo/task',
+        name: 'task',
+        component: './work-memo/task',
       },
       {
-        name: 'step-form',
-        icon: 'smile',
-        path: '/form/step-form',
-        component: './form/step-form',
-      },
-      {
-        name: 'advanced-form',
-        icon: 'smile',
-        path: '/form/advanced-form',
-        component: './form/advanced-form',
+        path: '/work-memo/note',
+        name: 'note',
+        component: './work-memo/note',
       },
     ],
   },
+  // 6. 财务管理
   {
-    path: '/list',
-    icon: 'table',
-    name: 'list',
+    path: '/finance',
+    name: 'finance',
+    icon: 'moneyCollect',
     routes: [
       {
-        path: '/list/search',
-        name: 'search-list',
-        component: './list/search',
-        routes: [
-          {
-            path: '/list/search',
-            redirect: '/list/search/articles',
-          },
-          {
-            name: 'articles',
-            icon: 'smile',
-            path: '/list/search/articles',
-            component: './list/search/articles',
-          },
-          {
-            name: 'projects',
-            icon: 'smile',
-            path: '/list/search/projects',
-            component: './list/search/projects',
-          },
-          {
-            name: 'applications',
-            icon: 'smile',
-            path: '/list/search/applications',
-            component: './list/search/applications',
-          },
-        ],
+        path: '/finance',
+        redirect: '/finance/budget',
       },
       {
-        path: '/list',
-        redirect: '/list/table-list',
+        path: '/finance/budget',
+        name: 'budget',
+        component: './finance/budget',
       },
       {
-        name: 'table-list',
-        icon: 'smile',
-        path: '/list/table-list',
-        component: './table-list',
-      },
-      {
-        name: 'basic-list',
-        icon: 'smile',
-        path: '/list/basic-list',
-        component: './list/basic-list',
-      },
-      {
-        name: 'card-list',
-        icon: 'smile',
-        path: '/list/card-list',
-        component: './list/card-list',
+        path: '/finance/reimbursement',
+        name: 'reimbursement',
+        component: './finance/reimbursement',
       },
     ],
   },
+  // 7. 合同管理
   {
-    path: '/profile',
-    name: 'profile',
-    icon: 'profile',
+    path: '/contract',
+    name: 'contract',
+    icon: 'fileDone',
     routes: [
       {
-        path: '/profile',
-        redirect: '/profile/basic',
+        path: '/contract',
+        redirect: '/contract/receipt',
       },
       {
-        name: 'basic',
-        icon: 'smile',
-        path: '/profile/basic',
-        component: './profile/basic',
+        path: '/contract/receipt',
+        name: 'receipt',
+        component: './contract/receipt',
       },
       {
-        name: 'advanced',
-        icon: 'smile',
-        path: '/profile/advanced',
-        component: './profile/advanced',
+        path: '/contract/outsourcing',
+        name: 'outsourcing',
+        component: './contract/outsourcing',
       },
     ],
   },
+  // 8. 团队管理
   {
-    name: 'result',
-    icon: 'CheckCircleOutlined',
-    path: '/result',
+    path: '/team',
+    name: 'team',
+    icon: 'team',
     routes: [
       {
-        path: '/result',
-        redirect: '/result/success',
+        path: '/team',
+        redirect: '/team/list',
       },
       {
-        name: 'success',
-        icon: 'smile',
-        path: '/result/success',
-        component: './result/success',
+        path: '/team/list',
+        name: 'list',
+        component: './team/list',
       },
       {
-        name: 'fail',
-        icon: 'smile',
-        path: '/result/fail',
-        component: './result/fail',
+        path: '/team/member',
+        name: 'member',
+        component: './team/member',
+      },
+      {
+        path: '/team/member-task',
+        name: 'member-task',
+        component: './team/member-task',
       },
     ],
   },
+  // 9. 知识产权管理
   {
-    name: 'exception',
-    icon: 'warning',
-    path: '/exception',
+    path: '/intellectual-property',
+    name: 'intellectual-property',
+    icon: 'trademark',
     routes: [
       {
-        path: '/exception',
-        redirect: '/exception/403',
+        path: '/intellectual-property',
+        redirect: '/intellectual-property/patent',
       },
       {
-        name: '403',
-        icon: 'smile',
-        path: '/exception/403',
-        component: './exception/403',
+        path: '/intellectual-property/patent',
+        name: 'patent',
+        component: './intellectual-property/patent',
       },
       {
-        name: '404',
-        icon: 'smile',
-        path: '/exception/404',
-        component: './exception/404',
+        path: '/intellectual-property/software',
+        name: 'software',
+        component: './intellectual-property/software',
       },
       {
-        name: '500',
-        icon: 'smile',
-        path: '/exception/500',
-        component: './exception/500',
+        path: '/intellectual-property/article',
+        name: 'article',
+        component: './intellectual-property/article',
+      },
+      {
+        path: '/intellectual-property/library',
+        name: 'library',
+        component: './intellectual-property/library',
       },
     ],
   },
+  // 10. 组会管理
   {
+    path: '/meeting',
+    name: 'meeting',
+    icon: 'calendar',
+    component: './meeting',
+  },
+  // 11. 联系人管理
+  {
+    path: '/contact',
+    name: 'contact',
+    icon: 'contacts',
+    component: './contact',
+  },
+  // 12. 调研管理
+  {
+    path: '/research',
+    name: 'research',
+    icon: 'search',
+    component: './research',
+  },
+  // 13. 资料管理
+  {
+    path: '/document',
+    name: 'document',
+    icon: 'folderOpen',
+    routes: [
+      {
+        path: '/document',
+        redirect: '/document/file',
+      },
+      {
+        path: '/document/file',
+        name: 'file',
+        component: './document/file',
+      },
+      {
+        path: '/document/resume',
+        name: 'resume',
+        component: './document/resume',
+      },
+    ],
+  },
+  // 14. 个人中心
+  {
+    path: '/account',
     name: 'account',
     icon: 'user',
-    path: '/account',
-    routes: [
-      {
-        path: '/account',
-        redirect: '/account/center',
-      },
-      {
-        name: 'center',
-        icon: 'smile',
-        path: '/account/center',
-        component: './account/center',
-      },
-      {
-        name: 'settings',
-        icon: 'smile',
-        path: '/account/settings',
-        component: './account/settings',
-      },
-    ],
+    component: './account/center',
   },
   {
     path: '/',
-    redirect: '/dashboard/analysis',
+    redirect: '/console',
   },
   {
     component: '404',
