@@ -98,11 +98,6 @@ export default [
         component: './project/suggestion',
       },
       {
-        path: '/project/requirement',
-        name: 'requirement',
-        component: './project/requirement',
-      },
-      {
         path: '/project/prompt',
         name: 'prompt',
         component: './project/prompt',
@@ -178,6 +173,11 @@ export default [
         name: 'outsourcing',
         component: './contract/outsourcing',
       },
+      {
+        path: '/contract/other',
+        name: 'other',
+        component: './contract/other',
+      },
     ],
   },
   // 7. 人员管理（合并：团队管理 + 联系人管理 + 简历管理）
@@ -199,11 +199,6 @@ export default [
         path: '/personnel/member',
         name: 'member',
         component: './team/member',
-      },
-      {
-        path: '/personnel/member-task',
-        name: 'member-task',
-        component: './team/member-task',
       },
       {
         path: '/personnel/contact',

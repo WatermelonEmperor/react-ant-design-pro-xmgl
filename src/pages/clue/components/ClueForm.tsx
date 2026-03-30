@@ -137,6 +137,12 @@ const ClueForm: React.FC<ClueFormProps> = (props) => {
         fieldProps={{ rows: 3 }}
       />
       <ProFormTextArea
+        name="requirementCollection"
+        label="需求收集"
+        placeholder="请输入收集到的客户需求信息"
+        fieldProps={{ rows: 3 }}
+      />
+      <ProFormTextArea
         name="remark"
         label="备注"
         placeholder="请输入备注信息"

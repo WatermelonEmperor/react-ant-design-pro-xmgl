@@ -14,6 +14,7 @@ export type ClueItem = {
   updatedAt: string;
   createdBy: string;
   remark: string;
+  requirementCollection: string; // 需求收集
 };
 
 export type ClueListPagination = {

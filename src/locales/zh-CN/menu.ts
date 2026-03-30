@@ -21,7 +21,6 @@ export default {
   'menu.project.topic': '课题管理',
   'menu.project.list': '工程列表',
   'menu.project.suggestion': '工程建议',
-  'menu.project.requirement': '工程需求',
   'menu.project.prompt': '提示词管理',
 
   // 4. 工作管理（合并：工作备忘 + 组会管理）
@@ -39,12 +38,12 @@ export default {
   'menu.contract': '合同管理',
   'menu.contract.receipt': '收款合同',
   'menu.contract.outsourcing': '外协合同',
+  'menu.contract.other': '其他合同',
 
   // 7. 人员管理（合并：团队管理 + 联系人管理 + 简历管理）
   'menu.personnel': '人员管理',
   'menu.personnel.team': '团队列表',
   'menu.personnel.member': '成员列表',
-  'menu.personnel.member-task': '成员任务',
   'menu.personnel.contact': '联系人',
   'menu.personnel.resume': '简历管理',
 

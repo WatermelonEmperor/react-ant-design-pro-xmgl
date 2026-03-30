@@ -19,6 +19,7 @@ const mockClues: ClueItem[] = [
     updatedAt: '2024-03-15',
     createdBy: '李四',
     remark: '需要重点跟进',
+    requirementCollection: '需要智慧交通、智慧安防、智慧政务等多个子系统的整合方案',
   },
   {
     id: '2',
@@ -36,6 +37,7 @@ const mockClues: ClueItem[] = [
     updatedAt: '2024-03-18',
     createdBy: '赵六',
     remark: '',
+    requirementCollection: '企业内部流程优化、数据中台建设、智能决策支持系统等需求',
   },
   {
     id: '3',
@@ -53,6 +55,7 @@ const mockClues: ClueItem[] = [
     updatedAt: '2024-03-10',
     createdBy: '李四',
     remark: '等待进一步沟通',
+    requirementCollection: '联合培养研究生、共建实验室、技术成果转化等合作模式探讨',
   },
   {
     id: '4',
@@ -70,6 +73,7 @@ const mockClues: ClueItem[] = [
     updatedAt: '2024-03-16',
     createdBy: '王五',
     remark: '已提交方案',
+    requirementCollection: 'HIS系统升级、电子病历、远程医疗平台等功能需求',
   },
   {
     id: '5',
@@ -87,6 +91,7 @@ const mockClues: ClueItem[] = [
     updatedAt: '2024-03-12',
     createdBy: '赵六',
     remark: '项目已确认，进入合同阶段',
+    requirementCollection: '信用评估模型、反欺诈检测、实时风险预警等核心功能',
   },
 ];
 

@@ -421,6 +421,7 @@ const CluePage: React.FC = () => {
               { title: '创建时间', dataIndex: 'createdAt', valueType: 'dateTime' },
               { title: '更新时间', dataIndex: 'updatedAt', valueType: 'dateTime' },
               { title: '线索描述', dataIndex: 'description', span: 2 },
+              { title: '需求收集', dataIndex: 'requirementCollection', span: 2 },
               { title: '备注', dataIndex: 'remark', span: 2 },
             ]}
           />
