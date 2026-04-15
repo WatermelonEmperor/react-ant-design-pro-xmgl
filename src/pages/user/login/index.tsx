@@ -11,6 +11,8 @@ const useStyles = createStyles(() => {
   return {
     container: {
       display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
       height: '100vh',
       width: '100vw',
       overflow: 'hidden',
@@ -18,7 +20,17 @@ const useStyles = createStyles(() => {
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       backgroundRepeat: 'no-repeat',
-      position: 'relative',
+    },
+    // 白色圆角矩形容器，包含左侧图片和右侧表单
+    loginCard: {
+      display: 'flex',
+      background: '#fff',
+      borderRadius: '20px',
+      overflow: 'hidden',
+      boxShadow: '0 20px 60px rgba(0, 0, 0, 0.15)',
+      maxWidth: '1000px',
+      width: '90%',
+      minHeight: '550px',
     },
     // 左侧插图区域
     leftArea: {
@@ -27,23 +39,21 @@ const useStyles = createStyles(() => {
       justifyContent: 'center',
       alignItems: 'center',
       padding: '40px',
+      background: '#fff',
     },
     illustrationImage: {
       maxWidth: '100%',
-      maxHeight: '70vh',
+      maxHeight: '450px',
       objectFit: 'contain' as const,
     },
     // 右侧表单区域
     rightPanel: {
-      position: 'absolute',
-      right: '8%',
-      top: '50%',
-      transform: 'translateY(-50%)',
-      width: '400px',
+      width: '420px',
       background: '#fff',
-      borderRadius: '8px',
-      padding: '48px 40px',
-      boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+      padding: '50px 45px',
+      display: 'flex',
+      flexDirection: 'column' as const,
+      justifyContent: 'center',
     },
     formTitle: {
       fontSize: '22px',
@@ -214,129 +224,132 @@ const Login: React.FC = () => {
         <title>登录 - 高校课题组管理平台</title>
       </Helmet>
 
-      {/* 左侧插图区域 */}
-      <div className={styles.leftArea}>
-        <img
-          src="/images/login_form_left.png"
-          alt="登录插图"
-          className={styles.illustrationImage}
-        />
-      </div>
-
-      {/* 右侧表单区域 */}
-      <div className={styles.rightPanel}>
-        <h1 className={styles.formTitle}>欢迎登录高校课题组管理平台</h1>
-        <div className={styles.formDivider} />
-
-        {status === 'error' && (
-          <LoginMessage
-            content={intl.formatMessage({
-              id: 'pages.login.accountLogin.errorMessage',
-              defaultMessage: '账户或密码错误(admin/ant.design)',
-            })}
+      {/* 白色圆角矩形容器 */}
+      <div className={styles.loginCard}>
+        {/* 左侧插图区域 */}
+        <div className={styles.leftArea}>
+          <img
+            src="/images/login_form_left.png"
+            alt="登录插图"
+            className={styles.illustrationImage}
           />
-        )}
+        </div>
 
-        <Form form={form} onFinish={handleSubmit}>
-          <div className={styles.inputWrapper}>
-            <div className={styles.inputWithIcon}>
-              <div className={styles.iconBox}>
-                <UserOutlined />
+        {/* 右侧表单区域 */}
+        <div className={styles.rightPanel}>
+          <h1 className={styles.formTitle}>欢迎登录高校课题组管理平台</h1>
+          <div className={styles.formDivider} />
+
+          {status === 'error' && (
+            <LoginMessage
+              content={intl.formatMessage({
+                id: 'pages.login.accountLogin.errorMessage',
+                defaultMessage: '账户或密码错误(admin/ant.design)',
+              })}
+            />
+          )}
+
+          <Form form={form} onFinish={handleSubmit}>
+            <div className={styles.inputWrapper}>
+              <div className={styles.inputWithIcon}>
+                <div className={styles.iconBox}>
+                  <UserOutlined />
+                </div>
+                <ProFormText
+                  name="username"
+                  fieldProps={{
+                    bordered: false,
+                    placeholder: 'admin',
+                    style: { padding: '12px 16px' },
+                  }}
+                  rules={[
+                    {
+                      required: true,
+                      message: (
+                        <FormattedMessage
+                          id="pages.login.username.required"
+                          defaultMessage="请输入用户名!"
+                        />
+                      ),
+                    },
+                  ]}
+                />
               </div>
-              <ProFormText
-                name="username"
-                fieldProps={{
-                  bordered: false,
-                  placeholder: 'admin',
-                  style: { padding: '12px 16px' },
-                }}
-                rules={[
-                  {
-                    required: true,
-                    message: (
-                      <FormattedMessage
-                        id="pages.login.username.required"
-                        defaultMessage="请输入用户名!"
-                      />
-                    ),
-                  },
-                ]}
-              />
             </div>
-          </div>
 
-          <div className={styles.inputWrapper}>
-            <div className={styles.inputWithIcon}>
-              <div className={styles.iconBox}>
-                <LockOutlined />
+            <div className={styles.inputWrapper}>
+              <div className={styles.inputWithIcon}>
+                <div className={styles.iconBox}>
+                  <LockOutlined />
+                </div>
+                <ProFormText.Password
+                  name="password"
+                  fieldProps={{
+                    bordered: false,
+                    placeholder: '请输入密码',
+                    style: { padding: '12px 16px' },
+                  }}
+                  rules={[
+                    {
+                      required: true,
+                      message: (
+                        <FormattedMessage
+                          id="pages.login.password.required"
+                          defaultMessage="请输入密码！"
+                        />
+                      ),
+                    },
+                  ]}
+                />
               </div>
-              <ProFormText.Password
-                name="password"
-                fieldProps={{
-                  bordered: false,
-                  placeholder: '请输入密码',
-                  style: { padding: '12px 16px' },
-                }}
-                rules={[
-                  {
-                    required: true,
-                    message: (
-                      <FormattedMessage
-                        id="pages.login.password.required"
-                        defaultMessage="请输入密码！"
-                      />
-                    ),
-                  },
-                ]}
-              />
             </div>
-          </div>
 
-          <div className={styles.inputWrapper}>
-            <div className={styles.inputWithIcon}>
-              <div className={styles.iconBox}>
-                <NumberOutlined />
+            <div className={styles.inputWrapper}>
+              <div className={styles.inputWithIcon}>
+                <div className={styles.iconBox}>
+                  <NumberOutlined />
+                </div>
+                <ProFormText
+                  name="loginCode"
+                  fieldProps={{
+                    bordered: false,
+                    placeholder: '请输入登录码',
+                    style: { padding: '12px 16px' },
+                  }}
+                />
               </div>
-              <ProFormText
-                name="loginCode"
-                fieldProps={{
-                  bordered: false,
-                  placeholder: '请输入登录码',
-                  style: { padding: '12px 16px' },
-                }}
-              />
             </div>
-          </div>
 
-          <Row gutter={12} style={{ marginBottom: 24 }}>
-            <Col span={14}>
-              <div
-                className={styles.captchaImage}
-                onClick={refreshCaptcha}
-                title="点击刷新验证码"
-              >
-                {captcha}
-              </div>
-            </Col>
-            <Col span={10}>
-              <Input
-                placeholder="请输入验证码"
-                value={captchaInput}
-                onChange={(e) => setCaptchaInput(e.target.value)}
-                style={{ height: '48px' }}
-              />
-            </Col>
-          </Row>
+            <Row gutter={12} style={{ marginBottom: 24 }}>
+              <Col span={14}>
+                <div
+                  className={styles.captchaImage}
+                  onClick={refreshCaptcha}
+                  title="点击刷新验证码"
+                >
+                  {captcha}
+                </div>
+              </Col>
+              <Col span={10}>
+                <Input
+                  placeholder="请输入验证码"
+                  value={captchaInput}
+                  onChange={(e) => setCaptchaInput(e.target.value)}
+                  style={{ height: '48px' }}
+                />
+              </Col>
+            </Row>
 
-          <Button
-            type="primary"
-            htmlType="submit"
-            loading={submitting}
-            className={styles.submitBtn}
-          >
-            登 录
-          </Button>
-        </Form>
+            <Button
+              type="primary"
+              htmlType="submit"
+              loading={submitting}
+              className={styles.submitBtn}
+            >
+              登 录
+            </Button>
+          </Form>
+        </div>
       </div>
     </div>
   );
