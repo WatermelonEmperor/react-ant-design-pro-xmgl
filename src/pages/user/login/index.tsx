@@ -1,98 +1,128 @@
-import {
-  AlipayCircleOutlined,
-  LockOutlined,
-  MobileOutlined,
-  TaobaoCircleOutlined,
-  UserOutlined,
-  WeiboCircleOutlined,
-} from '@ant-design/icons';
-import {
-  LoginForm,
-  ProFormCaptcha,
-  ProFormCheckbox,
-  ProFormText,
-} from '@ant-design/pro-components';
-import {
-  FormattedMessage,
-  Helmet,
-  SelectLang,
-  useIntl,
-  useModel,
-} from '@umijs/max';
-import { Alert, App, Tabs } from 'antd';
+import { LockOutlined, NumberOutlined, UserOutlined } from '@ant-design/icons';
+import { ProFormText } from '@ant-design/pro-components';
+import { FormattedMessage, Helmet, useIntl, useModel } from '@umijs/max';
+import { Alert, App, Button, Col, Form, Input, Row } from 'antd';
 import { createStyles } from 'antd-style';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { flushSync } from 'react-dom';
-import { Footer } from '@/components';
 import { login } from '@/services/ant-design-pro/api';
-import { getFakeCaptcha } from '@/services/ant-design-pro/login';
-import Settings from '../../../../config/defaultSettings';
 
-const useStyles = createStyles(({ token }) => {
+const useStyles = createStyles(() => {
   return {
-    action: {
-      marginLeft: '8px',
-      color: 'rgba(0, 0, 0, 0.2)',
-      fontSize: '24px',
-      verticalAlign: 'middle',
-      cursor: 'pointer',
-      transition: 'color 0.3s',
-      '&:hover': {
-        color: token.colorPrimaryActive,
-      },
-    },
-    lang: {
-      width: 42,
-      height: 42,
-      lineHeight: '42px',
-      position: 'fixed',
-      right: 16,
-      borderRadius: token.borderRadius,
-      ':hover': {
-        backgroundColor: token.colorBgTextHover,
-      },
-    },
     container: {
       display: 'flex',
-      flexDirection: 'column',
       height: '100vh',
-      overflow: 'auto',
-      backgroundImage:
-        "url('https://mdn.alipayobjects.com/yuyan_qk0oxh/afts/img/V-_oS6r-i7wAAAAAAAAAAAAAFl94AQBr')",
-      backgroundSize: '100% 100%',
+      width: '100vw',
+      overflow: 'hidden',
+      backgroundImage: 'url(/images/login_back.png)',
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundRepeat: 'no-repeat',
+      position: 'relative',
+    },
+    // 左侧插图区域
+    leftArea: {
+      flex: 1,
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      padding: '40px',
+    },
+    illustrationImage: {
+      maxWidth: '100%',
+      maxHeight: '70vh',
+      objectFit: 'contain' as const,
+    },
+    // 右侧表单区域
+    rightPanel: {
+      position: 'absolute',
+      right: '8%',
+      top: '50%',
+      transform: 'translateY(-50%)',
+      width: '400px',
+      background: '#fff',
+      borderRadius: '8px',
+      padding: '48px 40px',
+      boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+    },
+    formTitle: {
+      fontSize: '22px',
+      fontWeight: 600,
+      color: '#333',
+      textAlign: 'center' as const,
+      marginBottom: '8px',
+    },
+    formDivider: {
+      width: '100%',
+      height: '1px',
+      background: '#e8e8e8',
+      margin: '16px 0 32px 0',
+    },
+    inputWrapper: {
+      marginBottom: '20px',
+    },
+    inputWithIcon: {
+      display: 'flex',
+      alignItems: 'stretch',
+      border: '1px solid #d9d9d9',
+      borderRadius: '4px',
+      overflow: 'hidden',
+      '&:hover': {
+        borderColor: '#5a9bf6',
+      },
+      '&:focus-within': {
+        borderColor: '#5a9bf6',
+        boxShadow: '0 0 0 2px rgba(90, 155, 246, 0.2)',
+      },
+    },
+    iconBox: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      width: '50px',
+      background: '#f5f5f5',
+      borderRight: '1px solid #d9d9d9',
+      color: '#999',
+      fontSize: '18px',
+    },
+    captchaImage: {
+      width: '100%',
+      height: '48px',
+      background: 'linear-gradient(90deg, #5a9bf6 0%, #667eea 100%)',
+      borderRadius: '4px',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      color: '#fff',
+      fontSize: '24px',
+      fontFamily: 'monospace',
+      letterSpacing: '8px',
+      cursor: 'pointer',
+      userSelect: 'none' as const,
+    },
+    submitBtn: {
+      width: '100%',
+      height: '48px',
+      fontSize: '16px',
+      fontWeight: 500,
+      background: 'linear-gradient(90deg, #5a9bf6 0%, #667eea 100%)',
+      border: 'none',
+      borderRadius: '4px',
+      '&:hover': {
+        background: 'linear-gradient(90deg, #4a8be6 0%, #5a6eda 100%)',
+      },
     },
   };
 });
 
-const ActionIcons = () => {
-  const { styles } = useStyles();
-
-  return (
-    <>
-      <AlipayCircleOutlined
-        key="AlipayCircleOutlined"
-        className={styles.action}
-      />
-      <TaobaoCircleOutlined
-        key="TaobaoCircleOutlined"
-        className={styles.action}
-      />
-      <WeiboCircleOutlined
-        key="WeiboCircleOutlined"
-        className={styles.action}
-      />
-    </>
-  );
-};
-
-const Lang = () => {
-  const { styles } = useStyles();
-
-  return (
-    <div className={styles.lang} data-lang>
-      {SelectLang && <SelectLang />}
-    </div>
-  );
+// 生成随机验证码
+const generateCaptcha = () => {
+  const chars = '0123456789';
+  let result = '';
+  for (let i = 0; i < 6; i++) {
+    result += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return result.slice(0, 3) + ' ' + result.slice(3);
 };
 
 const LoginMessage: React.FC<{
@@ -112,11 +142,23 @@ const LoginMessage: React.FC<{
 
 const Login: React.FC = () => {
   const [userLoginState, setUserLoginState] = useState<API.LoginResult>({});
-  const [type, setType] = useState<string>('account');
+  const [submitting, setSubmitting] = useState(false);
+  const [captcha, setCaptcha] = useState('');
+  const [captchaInput, setCaptchaInput] = useState('');
   const { initialState, setInitialState } = useModel('@@initialState');
   const { styles } = useStyles();
   const { message } = App.useApp();
   const intl = useIntl();
+  const [form] = Form.useForm();
+
+  useEffect(() => {
+    setCaptcha(generateCaptcha());
+  }, []);
+
+  const refreshCaptcha = () => {
+    setCaptcha(generateCaptcha());
+    setCaptchaInput('');
+  };
 
   const fetchUserInfo = async () => {
     const userInfo = await initialState?.fetchUserInfo?.();
@@ -131,9 +173,16 @@ const Login: React.FC = () => {
   };
 
   const handleSubmit = async (values: API.LoginParams) => {
+    // 验证验证码
+    if (captchaInput.replace(/\s/g, '') !== captcha.replace(/\s/g, '')) {
+      message.error('验证码错误！');
+      refreshCaptcha();
+      return;
+    }
+
+    setSubmitting(true);
     try {
-      // 登录
-      const msg = await login({ ...values, type });
+      const msg = await login({ ...values, type: 'account' });
       if (msg.status === 'ok') {
         const defaultLoginSuccessMessage = intl.formatMessage({
           id: 'pages.login.success',
@@ -145,8 +194,6 @@ const Login: React.FC = () => {
         window.location.href = urlParams.get('redirect') || '/';
         return;
       }
-      console.log(msg);
-      // 如果失败去设置用户错误信息
       setUserLoginState(msg);
     } catch (error) {
       const defaultLoginFailureMessage = intl.formatMessage({
@@ -156,94 +203,53 @@ const Login: React.FC = () => {
       console.log(error);
       message.error(defaultLoginFailureMessage);
     }
+    setSubmitting(false);
   };
-  const { status, type: loginType } = userLoginState;
+
+  const { status } = userLoginState;
 
   return (
     <div className={styles.container}>
       <Helmet>
-        <title>
-          {intl.formatMessage({
-            id: 'menu.login',
-            defaultMessage: '登录页',
-          })}
-          {Settings.title && ` - ${Settings.title}`}
-        </title>
+        <title>登录 - 高校课题组管理平台</title>
       </Helmet>
-      <Lang />
-      <div
-        style={{
-          flex: '1',
-          padding: '32px 0',
-        }}
-      >
-        <LoginForm
-          contentStyle={{
-            minWidth: 280,
-            maxWidth: '75vw',
-          }}
-          logo={<img alt="logo" src="/logo.svg" />}
-          title="Ant Design"
-          subTitle={intl.formatMessage({
-            id: 'pages.layouts.userLayout.title',
-          })}
-          initialValues={{
-            autoLogin: true,
-          }}
-          actions={[
-            <FormattedMessage
-              key="loginWith"
-              id="pages.login.loginWith"
-              defaultMessage="其他登录方式"
-            />,
-            <ActionIcons key="icons" />,
-          ]}
-          onFinish={async (values) => {
-            await handleSubmit(values as API.LoginParams);
-          }}
-        >
-          <Tabs
-            activeKey={type}
-            onChange={setType}
-            centered
-            items={[
-              {
-                key: 'account',
-                label: intl.formatMessage({
-                  id: 'pages.login.accountLogin.tab',
-                  defaultMessage: '账户密码登录',
-                }),
-              },
-              {
-                key: 'mobile',
-                label: intl.formatMessage({
-                  id: 'pages.login.phoneLogin.tab',
-                  defaultMessage: '手机号登录',
-                }),
-              },
-            ]}
-          />
 
-          {status === 'error' && loginType === 'account' && (
-            <LoginMessage
-              content={intl.formatMessage({
-                id: 'pages.login.accountLogin.errorMessage',
-                defaultMessage: '账户或密码错误(admin/ant.design)',
-              })}
-            />
-          )}
-          {type === 'account' && (
-            <>
+      {/* 左侧插图区域 */}
+      <div className={styles.leftArea}>
+        <img
+          src="/images/login_form_left.png"
+          alt="登录插图"
+          className={styles.illustrationImage}
+        />
+      </div>
+
+      {/* 右侧表单区域 */}
+      <div className={styles.rightPanel}>
+        <h1 className={styles.formTitle}>欢迎登录高校课题组管理平台</h1>
+        <div className={styles.formDivider} />
+
+        {status === 'error' && (
+          <LoginMessage
+            content={intl.formatMessage({
+              id: 'pages.login.accountLogin.errorMessage',
+              defaultMessage: '账户或密码错误(admin/ant.design)',
+            })}
+          />
+        )}
+
+        <Form form={form} onFinish={handleSubmit}>
+          <div className={styles.inputWrapper}>
+            <div className={styles.inputWithIcon}>
+              <div className={styles.iconBox}>
+                <UserOutlined />
+              </div>
               <ProFormText
                 name="username"
                 fieldProps={{
-                  size: 'large',
-                  prefix: <UserOutlined />,
+                  bordered: false,
+                  placeholder: 'admin',
+                  style: { padding: '12px 16px' },
                 }}
-                placeholder={intl.formatMessage({
-                  id: 'pages.login.username.placeholder',
-                  defaultMessage: '用户名: admin or user',
-                })}
                 rules={[
                   {
                     required: true,
@@ -256,16 +262,21 @@ const Login: React.FC = () => {
                   },
                 ]}
               />
+            </div>
+          </div>
+
+          <div className={styles.inputWrapper}>
+            <div className={styles.inputWithIcon}>
+              <div className={styles.iconBox}>
+                <LockOutlined />
+              </div>
               <ProFormText.Password
                 name="password"
                 fieldProps={{
-                  size: 'large',
-                  prefix: <LockOutlined />,
+                  bordered: false,
+                  placeholder: '请输入密码',
+                  style: { padding: '12px 16px' },
                 }}
-                placeholder={intl.formatMessage({
-                  id: 'pages.login.password.placeholder',
-                  defaultMessage: '密码: ant.design',
-                })}
                 rules={[
                   {
                     required: true,
@@ -278,118 +289,55 @@ const Login: React.FC = () => {
                   },
                 ]}
               />
-            </>
-          )}
-
-          {status === 'error' && loginType === 'mobile' && (
-            <LoginMessage content="验证码错误" />
-          )}
-          {type === 'mobile' && (
-            <>
-              <ProFormText
-                fieldProps={{
-                  size: 'large',
-                  prefix: <MobileOutlined />,
-                }}
-                name="mobile"
-                placeholder={intl.formatMessage({
-                  id: 'pages.login.phoneNumber.placeholder',
-                  defaultMessage: '手机号',
-                })}
-                rules={[
-                  {
-                    required: true,
-                    message: (
-                      <FormattedMessage
-                        id="pages.login.phoneNumber.required"
-                        defaultMessage="请输入手机号！"
-                      />
-                    ),
-                  },
-                  {
-                    pattern: /^1\d{10}$/,
-                    message: (
-                      <FormattedMessage
-                        id="pages.login.phoneNumber.invalid"
-                        defaultMessage="手机号格式错误！"
-                      />
-                    ),
-                  },
-                ]}
-              />
-              <ProFormCaptcha
-                fieldProps={{
-                  size: 'large',
-                  prefix: <LockOutlined />,
-                }}
-                captchaProps={{
-                  size: 'large',
-                }}
-                placeholder={intl.formatMessage({
-                  id: 'pages.login.captcha.placeholder',
-                  defaultMessage: '请输入验证码',
-                })}
-                captchaTextRender={(timing, count) => {
-                  if (timing) {
-                    return `${count} ${intl.formatMessage({
-                      id: 'pages.getCaptchaSecondText',
-                      defaultMessage: '获取验证码',
-                    })}`;
-                  }
-                  return intl.formatMessage({
-                    id: 'pages.login.phoneLogin.getVerificationCode',
-                    defaultMessage: '获取验证码',
-                  });
-                }}
-                name="captcha"
-                rules={[
-                  {
-                    required: true,
-                    message: (
-                      <FormattedMessage
-                        id="pages.login.captcha.required"
-                        defaultMessage="请输入验证码！"
-                      />
-                    ),
-                  },
-                ]}
-                onGetCaptcha={async (phone) => {
-                  const result = await getFakeCaptcha({
-                    phone,
-                  });
-                  if (!result) {
-                    return;
-                  }
-                  message.success('获取验证码成功！验证码为：1234');
-                }}
-              />
-            </>
-          )}
-          <div
-            style={{
-              marginBottom: 24,
-            }}
-          >
-            <ProFormCheckbox noStyle name="autoLogin">
-              <FormattedMessage
-                id="pages.login.rememberMe"
-                defaultMessage="自动登录"
-              />
-            </ProFormCheckbox>
-            <a
-              style={{
-                float: 'right',
-              }}
-            >
-              <FormattedMessage
-                id="pages.login.forgotPassword"
-                defaultMessage="忘记密码"
-              />
-            </a>
+            </div>
           </div>
-        </LoginForm>
+
+          <div className={styles.inputWrapper}>
+            <div className={styles.inputWithIcon}>
+              <div className={styles.iconBox}>
+                <NumberOutlined />
+              </div>
+              <ProFormText
+                name="loginCode"
+                fieldProps={{
+                  bordered: false,
+                  placeholder: '请输入登录码',
+                  style: { padding: '12px 16px' },
+                }}
+              />
+            </div>
+          </div>
+
+          <Row gutter={12} style={{ marginBottom: 24 }}>
+            <Col span={14}>
+              <div
+                className={styles.captchaImage}
+                onClick={refreshCaptcha}
+                title="点击刷新验证码"
+              >
+                {captcha}
+              </div>
+            </Col>
+            <Col span={10}>
+              <Input
+                placeholder="请输入验证码"
+                value={captchaInput}
+                onChange={(e) => setCaptchaInput(e.target.value)}
+                style={{ height: '48px' }}
+              />
+            </Col>
+          </Row>
+
+          <Button
+            type="primary"
+            htmlType="submit"
+            loading={submitting}
+            className={styles.submitBtn}
+          >
+            登 录
+          </Button>
+        </Form>
       </div>
-      <Footer />
     </div>
   );
 };
